@@ -1,0 +1,2 @@
+{{ index .data "crds.yaml" | b64dec }}
+{{ index .data "import.yaml" | b64dec }}
