@@ -1,5 +1,11 @@
 # Applier Samples For RHACM
 
+To install the applier:
+```bash
+git clone https://github.com/open-cluster-management/library-go.git
+make build
+mv bin/applier /usr/local/bin
+```
 ## Import an existing cluster
 
 Templates: [import-cluster](./import-cluster)
