@@ -11,7 +11,7 @@ for more information about the applier visit [README.md](https://github.com/open
 
 ## Import an existing cluster
 
-The scriptss [hub.sh](./import-cluster/hub.sh) and [managedcluster.sh](./importy-cluster/managedcluster.sh) use the applier to apply a number of yamls on the hub and managed cluster in order to import an existing cluster.
+The scriptss [hub.sh](./import-cluster/hub.sh) and [managedcluster.sh](./import-cluster/managedcluster.sh) use the applier to apply a number of yamls on the hub and managed cluster in order to import an existing cluster.
 
 Templates: [import-cluster](./import-cluster)
 
