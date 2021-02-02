@@ -11,4 +11,4 @@ for more information about the applier visit [Applier Documentation](https://git
 
 ## Scenarios
 
-- [Import an existing cluster](./import-cluster/README.md)
+- [Import an existing cluster](./import-cluster)
