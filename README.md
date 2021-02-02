@@ -10,5 +10,6 @@ mv bin/applier /usr/local/bin
 for more information about the applier visit [Applier Documentation](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md)
 
 ## Scenarios
+### Cluster Life Cycle
 
 - [Import an existing cluster](./import-cluster)
