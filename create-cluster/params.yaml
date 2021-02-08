@@ -1,0 +1,2 @@
+cloud: {{ .managedCluster.cloud }}
+name: {{ .managedCluster.name }}

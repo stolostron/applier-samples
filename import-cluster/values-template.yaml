@@ -1,4 +1,4 @@
-managedClusterName: my-managed-cluster
+managedClusterName: <cluster_name>
 addons:
   applicationManager:
     enabled: true
