@@ -5,7 +5,26 @@ The scriptss [hub.sh](./import-cluster/hub.sh) and [managedcluster.sh](./import-
 Templates: [import-cluster](./import-cluster)
 
 1. Make this directory your current directory
-2. Modify the [values.yaml](./import-cluster/values.yaml) by setting your cluster name and your options for the different addons.
-3. run `./hub.sh <clusterName>` clusterName being the name of the cluster you want to import.
+2. Create a values.yaml based on [values-template.yaml](./import-cluster/values-template.yaml) by setting your cluster name and your options for the different addons.
+3. run `./hub.sh`
 4. log on the future managed cluster
-5. run `./managedcluster.sh <clusterName>` clusterName being the name of the cluster you want to import.
+5. run `./managedcluster.sh`
+
+# hub.sh options
+
+```
+hub.sh [-o output-file] [-d] [-v [0-99]]
+-o output-file: generate an output-file instead of applying
+-d: When set the managed-cluster will be removed
+-v: verbose level
+-h: this help
+```
+
+# managedcluster.sh options
+
+```
+hub.sh [-o output-file] [-d] [-v [0-99]]
+-o output-file: generate an output-file instead of applying
+-v: verbose level
+-h: this help
+```

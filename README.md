@@ -13,3 +13,4 @@ for more information about the applier visit [Applier Documentation](https://git
 ### Cluster Life Cycle
 
 - [Import an existing cluster](./import-cluster)
+- [Create and import a cluster](./create-cluster)
