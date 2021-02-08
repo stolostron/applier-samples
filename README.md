@@ -3,6 +3,7 @@
 To install the applier:
 ```bash
 git clone https://github.com/open-cluster-management/library-go.git
+cd library-go
 make build
 mv bin/applier /usr/local/bin
 ```
