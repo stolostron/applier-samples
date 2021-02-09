@@ -2,9 +2,10 @@
 #!/bin/bash
 #set -x
 set -e
-while getopts o:sv:h flag
+while getopts o:i:sv:h flag
 do 
   case "${flag}" in
+    i) IN="-values ${OPTARG}";;
     o) OUT="-o ${OPTARG}";;
     s) SILENT="-s";;
     v) VERBOSE="-v ${OPTARG}";;
@@ -13,13 +14,18 @@ do
 done
 if [ -n "$HELP" ]
 then
-  echo "hub.sh [-o output-file] [-d] [-v [0-99]]"
-  echo "-o output-file: generate an output-file instead of applying"
+  echo "hub.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]"
+  echo "-i: the path to the values.yaml, default values.yaml"
+  echo "-o: output-file: generate an output-file instead of applying"
   echo "-v: verbose level"
   echo "-h: this help"
   exit 1
 fi
-PARAMS="$(applier -d params.yaml -values values.yaml -o /dev/stdout -s)"
+if [ -z ${IN+x} ]
+then
+  IN="-values values.yaml"
+fi
+PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 if [ -z ${NAME+x} ] 
 then
