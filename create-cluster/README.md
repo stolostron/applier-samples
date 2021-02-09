@@ -9,9 +9,10 @@ The scriptss [deploy.sh](./hub.sh) uses the [applier](https://github.com/open-cl
 # deploy.sh options
 
 ```
-deploy.sh [-o output-file] [-d] [-v [0-99]] [-h]
--o output-file: generate an output-file instead of applying
+deploy.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]] [-h]
+-i: the path to the values.yaml, default values.yaml
+-o: output-file: generate an output-file instead of applying
 -d: When set the cluster will be destroyed
 -v: verbose level
--h: this help
+-h: this helps
 ```

@@ -11,8 +11,9 @@ The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use
 # hub.sh options
 
 ```
-hub.sh [-o output-file] [-d] [-v [0-99]]
--o output-file: generate an output-file instead of applying
+hub.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]]
+-i: the path to the values.yaml, default values.yaml
+-o: output-file: generate an output-file instead of applying
 -d: When set the managed-cluster will be removed
 -v: verbose level
 -h: this help
@@ -21,8 +22,9 @@ hub.sh [-o output-file] [-d] [-v [0-99]]
 # managedcluster.sh options
 
 ```
-hub.sh [-o output-file] [-d] [-v [0-99]]
--o output-file: generate an output-file instead of applying
+hub.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]
+-i: the path to the values.yaml, default values.yaml
+-o: output-file: generate an output-file instead of applying
 -v: verbose level
 -h: this help
 ```
