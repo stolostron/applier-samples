@@ -1,9 +1,10 @@
 #!/bin/bash
 #set -x
 set -e
-while getopts o:dv:h flag
+while getopts o:i:dv:h flag
 do 
   case "${flag}" in
+    i) IN="-values ${OPTARG}";;
     o) OUT="-o ${OPTARG}";;
     d) DEL="-delete";;
     v) VERBOSE="-v ${OPTARG}";;
@@ -12,14 +13,19 @@ do
 done
 if [ -n "$HELP" ]
 then
-  echo "hub.sh [-o output-file] [-d] [-v [0-99]]"
-  echo "-o output-file: generate an output-file instead of applying"
+  echo "hub.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]]"
+  echo "-i: the path to the values.yaml, default values.yaml"
+  echo "-o: output-file: generate an output-file instead of applying"
   echo "-d: When set the managed-cluster will be removed"
   echo "-v: verbose level"
   echo "-h: this help"
   exit 0
 fi
-PARAMS="$(applier -d params.yaml -values values.yaml -o /dev/stdout -s)"
+if [ -z ${IN+x} ]
+then
+  IN="-values values.yaml"
+fi
+PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 if [ -z ${NAME+x} ] 
 then
@@ -39,7 +45,7 @@ then
 fi
 if [ -z ${DEL+x} ]
 then
-  applier -d hub -values values.yaml $OUT $VERBOSE -s
+  applier -d hub $IN $OUT $VERBOSE -s
   if [ -z ${OUT+x} ] 
   then
     echo "Wait 10s to settle"
@@ -54,5 +60,5 @@ then
     fi
   fi
 else
-  applier -d hub/managedcluster_cr.yaml -values values.yaml $DEL $OUT $VERBOSE
+  applier -d hub/managedcluster_cr.yaml $IN $DEL $OUT $VERBOSE
 fi
