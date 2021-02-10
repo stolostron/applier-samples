@@ -14,5 +14,5 @@ deploy.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]] [-h]
 -o: output-file: generate an output-file instead of applying
 -d: When set the cluster will be destroyed
 -v: verbose level
--h: this helps
+-h: this help
 ```
