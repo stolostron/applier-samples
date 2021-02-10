@@ -21,9 +21,9 @@ then
   echo "-h: this help"
   exit 0
 fi
-if [ -z ${INPUT+x} ]
+if [ -z ${IN+x} ]
 then
-  INPUT="-values values.yaml"
+  IN="-values values.yaml"
 fi
 PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 CLOUD=$(echo "$PARAMS" | grep "cloud:" | cut -d ":" -f2 | sed 's/^ //')
