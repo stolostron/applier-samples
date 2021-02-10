@@ -1,6 +1,6 @@
 managedCluster:
   name: #<cluster-name>
-  cloud: aws # clouds values can be aws, azure, gcp
+  cloud: vsphere # clouds values can be aws, azure, gcp, vsphere
   vendor: OpenShift
   ocpImage: # ocp image (ie: quay.io/openshift-release-dev/ocp-release:4.3.40-x86_64)
   addons:
@@ -23,22 +23,37 @@ managedCluster:
     -----END RSA PRIVATE KEY-----
   aws:
     baseDnsDomain: # baseDomain of your cluster (ie: mycompany.com)
-    awsAccessKeyID: 
-    awsSecretAccessKeyID: 
+    awsAccessKeyID:
+    awsSecretAccessKeyID:
     region: # Region (ie: us-east-1)
   azure:
     baseDnsDomain: # baseDomain of your cluster (ie: mycompany.com)
-    baseDomainRGN: 
+    baseDomainRGN:
     clientID:
     clientSecret:
-    tenantID: 
+    tenantID:
     subscriptionID:
-    region: 
+    region:
   gcp:
     osServiceAccountJson: |-
       {
         you authentication
       }
-    projectID: 
-    baseDnsDomain: 
-    region: 
+    projectID:
+    baseDnsDomain:
+    region:
+  vsphere:
+    username:
+    password:
+    vcenter:
+    cacertificate: |-
+      -----BEGIN CERTIFICATE-----
+      vSphere certificate
+      -----END CERTIFICATE-----
+    cluster:
+    datacenter:
+    datastore:
+    network:
+    baseDnsDomain: # baseDomain of your cluster (ie: mycompany.com)
+    apiVIP:
+    ingressVIP:

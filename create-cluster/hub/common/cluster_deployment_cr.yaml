@@ -16,6 +16,9 @@ spec:
 {{ if (eq .managedCluster.cloud "gcp") }}
   baseDomain: {{ .managedCluster.gcp.baseDnsDomain }}
 {{ end }}
+{{ if (eq .managedCluster.cloud "vsphere") }}
+  baseDomain: {{ .managedCluster.vsphere.baseDnsDomain }}
+{{ end }}
   clusterName: {{ .managedCluster.name }}
   controlPlaneConfig:
     servingCertificates: {}
@@ -34,6 +37,16 @@ spec:
 {{ if (eq .managedCluster.cloud "gcp") }}
     gcp:
       region: {{ .managedCluster.gcp.region }}
+{{ end }}
+{{ if (eq .managedCluster.cloud "vsphere") }}
+    vsphere:
+      cluster: {{ .managedCluster.vsphere.cluster }}
+      certificatesSecretRef:
+        name: {{ .managedCluster.name }}-vsphere-certs
+      vCenter: {{ .managedCluster.vsphere.vcenter }}
+      datacenter: {{ .managedCluster.vsphere.datacenter }}
+      defaultDatastore: {{ .managedCluster.vsphere.datastore }}
+      network: {{ .managedCluster.vsphere.network }}
 {{ end }}
       credentialsSecretRef:
         name: {{ .managedCluster.name }}-creds

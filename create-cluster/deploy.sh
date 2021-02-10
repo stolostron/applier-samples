@@ -2,7 +2,7 @@
 set -e
 #set -x
 while getopts o:i:dv:h flag
-do 
+do
   case "${flag}" in
     o) OUT="-o ${OPTARG}";;
     i) IN="-values ${OPTARG}";;
@@ -27,23 +27,24 @@ then
 fi
 PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 CLOUD=$(echo "$PARAMS" | grep "cloud:" | cut -d ":" -f2 | sed 's/^ //')
-if [ $CLOUD != "aws" ] && [ $CLOUD != "azure" ] && [ $CLOUD != "gcp" ]
-then 
-   echo -e $CLOUD" not supported\nOnly aws, azure and gcp are supported"
+if [ $CLOUD != "aws" ] && [ $CLOUD != "azure" ] && [ $CLOUD != "gcp" ]  && [ $CLOUD != "vsphere" ]
+then
+   echo -e $CLOUD" not supported\nOnly aws, azure, gcp and vsphere are supported"
    exit 1
 fi
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
-if [ -z ${CLOUD+x} ] 
+if [ -z ${CLOUD+x} ]
 then
   echo "Missing cloud type in value.yaml"
   exit 1
 fi
-if [ -z ${NAME+x} ] 
+if [ -z ${NAME+x} ]
 then
   echo "Missing cluster name in value.yaml"
   exit 1
 fi
 
+# Before deploy, make sure namespace does not exist already
 if [ -z ${DEL+x} ]
 then
   set +e
@@ -63,10 +64,17 @@ installConfig:
 $(applier -d hub/$CLOUD/install_config.yaml $IN -o /dev/stdout -s | sed 's/^/  /')
 EOF)
 
+# Create the managed cluster
 if [ -z ${DEL+x} ]
 then
-    echo "$EXT_VALUES" | applier -d hub/common $IN $OUT -s $VERBOSE
+  # vSphere needs an extra secret for CA cert
+  echo "$EXT_VALUES" | applier -d hub/common $IN $OUT -s $VERBOSE
+  if [ ${CLOUD} == "vsphere" ]
+  then
+    echo "$EXT_VALUES" | applier -d hub/vsphere/vsphere_ca_cert_secret_cr.yaml $IN ${OUT} -s $VERBOSE
+  fi
+# Delete the managed cluster
 else
-    echo "$EXT_VALUES" | applier -d hub/common/managed_cluster_cr.yaml $IN $DEL $OUT $VERBOSE
-    echo "$EXT_VALUES" | applier -d hub/common/cluster_deployment_cr.yaml -$IN $DEL $OUT $VERBOSE
-fi 
+  echo "$EXT_VALUES" | applier -d hub/common/managed_cluster_cr.yaml $IN $DEL $OUT $VERBOSE
+  echo "$EXT_VALUES" | applier -d hub/common/cluster_deployment_cr.yaml -$IN $DEL $OUT $VERBOSE
+fi
