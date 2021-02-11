@@ -67,7 +67,6 @@ EOF)
 # Create the managed cluster
 if [ -z ${DEL+x} ]
 then
-  # vSphere needs an extra secret for CA cert
   echo "$EXT_VALUES" | applier -d hub/common $IN $OUT -s $VERBOSE
 # Delete the managed cluster
 else
