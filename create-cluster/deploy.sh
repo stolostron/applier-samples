@@ -69,10 +69,6 @@ if [ -z ${DEL+x} ]
 then
   # vSphere needs an extra secret for CA cert
   echo "$EXT_VALUES" | applier -d hub/common $IN $OUT -s $VERBOSE
-  if [ ${CLOUD} == "vsphere" ]
-  then
-    echo "$EXT_VALUES" | applier -d hub/vsphere/vsphere_ca_cert_secret_cr.yaml $IN ${OUT} -s $VERBOSE
-  fi
 # Delete the managed cluster
 else
   echo "$EXT_VALUES" | applier -d hub/common/managed_cluster_cr.yaml $IN $DEL $OUT $VERBOSE
