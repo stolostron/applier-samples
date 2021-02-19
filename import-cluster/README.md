@@ -5,7 +5,7 @@ The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use
 1. Make this directory your current directory
 2. Create a values.yaml based on [values-template.yaml](./values-template.yaml) by setting your cluster name and your options for the different addons.
 3. run `./hub.sh`
-4. log on the future managed cluster
+4. if not auto-import then log on the future managed cluster
 5. run `./managedcluster.sh`
 
 # hub.sh options

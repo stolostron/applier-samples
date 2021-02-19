@@ -1,1 +1,3 @@
 name: {{ .managedClusterName }}
+kubeConfig: |-
+  {{ .kubeConfig | b64enc | indent 2 }}

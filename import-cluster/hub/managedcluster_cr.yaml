@@ -4,6 +4,9 @@ metadata:
   labels:
     cloud: auto-detect
     vendor: auto-detect
+{{ if .kubeConfig }}
+    autoImportRetry: "0"
+{{ end }}
   name: {{ .managedClusterName }}
 spec:
   hubAcceptsClient: true

@@ -1,0 +1,6 @@
+{{ if .kubeConfig }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .managedClusterName }}
+{{ end }}

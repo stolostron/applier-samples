@@ -11,5 +11,8 @@ addons:
   iamPolicyController:
     enabled: true
   version: 2.2.0
-
+#Provide the kubeConfig yaml here if you want to automatically import the cluster.
+kubeConfig: |-
+  <Kubeconfig>
+  
 

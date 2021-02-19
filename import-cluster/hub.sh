@@ -27,6 +27,7 @@ then
 fi
 PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
+KUBCONFIG=$(echo "$PARAMS" | grep "kubeConfig:" | cut -d ":" -f2 | sed 's/^ //')
 if [ -z ${NAME+x} ] 
 then
   echo "Missing cluster name in value.yaml"
@@ -46,7 +47,7 @@ fi
 if [ -z ${DEL+x} ]
 then
   applier -d hub $IN $OUT $VERBOSE -s
-  if [ -z ${OUT+x} ] 
+  if [ -z ${OUT+x} ] && [ -z ${KUBECONFIG+x} ]
   then
     echo "Wait 10s to settle"
     sleep 10
