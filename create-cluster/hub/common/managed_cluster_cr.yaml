@@ -8,3 +8,4 @@ metadata:
   name: {{ .managedCluster.name }}
 spec:
   hubAcceptsClient: true
+  leaseDurationSeconds: 60

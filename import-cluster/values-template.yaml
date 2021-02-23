@@ -14,5 +14,6 @@ addons:
 #Provide the kubeConfig yaml here if you want to automatically import the cluster.
 kubeConfig: |-
   <Kubeconfig>
+autoImportRetry: 5
   
 
