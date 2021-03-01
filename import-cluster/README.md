@@ -1,6 +1,6 @@
 # Import an existing cluster
 
-The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use the [applier](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md) to apply a number of yamls on the hub and managed cluster in order to import an existing cluster.
+The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use the [applier](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md) to apply a number of yamls on the hub and managed cluster in order to import an existing cluster. If you want the hub.sh to import automatically the managed cluster, the values.yaml must contain the "kubeConfig" and "autoImportRetry" and so the secret containging the kubeconfig and the number of retries will be generated too. In that case you don't need to run the `managedcluster.sh` on the managed cluster.
 
 1. Make this directory your current directory
 2. Create a values.yaml based on [values-template.yaml](./values-template.yaml) by setting your cluster name and your options for the different addons.
@@ -8,6 +8,13 @@ The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use
 4. if not auto-import then log on the future managed cluster
 5. run `./managedcluster.sh`
 
+
+```
+kubeConfig: |-
+  <Kubeconfig>
+autoImportRetry: 5
+```
+2. For local-cluster, the values.yaml managedClusterName must be equal to `local-cluster` and then a label `local-cluster: "true"` will be added in the generated managedCluster CR.
 # hub.sh options
 
 ```

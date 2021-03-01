@@ -1,6 +1,6 @@
 
 #!/bin/bash
-#set -x
+# set -x
 set -e
 while getopts o:i:sv:h flag
 do 
@@ -27,7 +27,7 @@ then
 fi
 PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
-if [ -z ${NAME+x} ] 
+if [ -z "$NAME" ] 
 then
   echo "Missing cluster name in value.yaml"
   exit 1

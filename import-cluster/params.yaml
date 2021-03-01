@@ -1,3 +1,5 @@
 name: {{ .managedClusterName }}
+{{ if .kubeConfig }}
 kubeConfig: |-
   {{ .kubeConfig | b64enc | indent 2 }}
+{{ end }}
