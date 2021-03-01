@@ -1,3 +1,5 @@
+[comment]: # ( Copyright Contributors to the Open Cluster Management project )
+
 # Import an existing cluster
 
 The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use the [applier](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md) to apply a number of yamls on the hub and managed cluster in order to import an existing cluster. If you want the hub.sh to import automatically the managed cluster, the values.yaml must contain the "kubeConfig" and "autoImportRetry" and so the secret containging the kubeconfig and the number of retries will be generated too. In that case you don't need to run the `managedcluster.sh` on the managed cluster.
