@@ -1,1 +1,7 @@
+# Copyright Contributors to the Open Cluster Management project
+
 name: {{ .managedClusterName }}
+{{ if .kubeConfig }}
+kubeConfig: |-
+  {{ .kubeConfig | b64enc | indent 2 }}
+{{ end }}

@@ -1,4 +1,6 @@
-# Applier Samples For RHACM
+[comment]: # ( Copyright Contributors to the Open Cluster Management project )
+
+# [Applier Samples For RHACM](#getting-started)
 
 To install the applier:
 ```bash

@@ -1,3 +1,5 @@
+[comment]: # ( Copyright Contributors to the Open Cluster Management project )
+
 # Create and import a cluster on AWS, AZURE, GCP or vSphere
 
 The script [deploy.sh](./deploy.sh) uses the [applier](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md) to apply a number of yamls on the hub in order to create a cluster and then import it as a managed cluster.

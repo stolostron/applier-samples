@@ -1,3 +1,5 @@
+# Copyright Contributors to the Open Cluster Management project
+
 managedCluster:
   name: #<cluster-name>
   cloud: vsphere # clouds values can be aws, azure, gcp, vsphere

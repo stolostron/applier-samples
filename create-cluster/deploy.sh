@@ -1,3 +1,5 @@
+# Copyright Contributors to the Open Cluster Management project
+
 #!/bin/bash
 set -e
 #set -x
@@ -33,12 +35,12 @@ then
    exit 1
 fi
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
-if [ -z ${CLOUD+x} ]
+if [ -z "CLOUD" ]
 then
   echo "Missing cloud type in value.yaml"
   exit 1
 fi
-if [ -z ${NAME+x} ]
+if [ -z "$NAME" ]
 then
   echo "Missing cluster name in value.yaml"
   exit 1
