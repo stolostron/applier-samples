@@ -4,6 +4,7 @@ managedClusterName: <cluster_name>
 addons:
   applicationManager:
     enabled: true
+    argocdCluster: false
   policyController:
     enabled: true
   searchCollector:
@@ -17,5 +18,7 @@ addons:
 kubeConfig: |-
   <Kubeconfig>
 autoImportRetry: 5
+token: <token>
+server: <api_server_url>
   
 

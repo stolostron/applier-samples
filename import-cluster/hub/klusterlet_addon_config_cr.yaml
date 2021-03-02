@@ -13,6 +13,7 @@ spec:
     vendor: auto-detect
   applicationManager:
     enabled: {{ .addons.applicationManager.enabled }}
+    argocdCluster: {{ .addons.applicationManager.argocdCluster }}
   policyController:
     enabled: {{ .addons.policyController.enabled }}
   searchCollector:
