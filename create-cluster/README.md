@@ -6,7 +6,8 @@ The script [deploy.sh](./deploy.sh) uses the [applier](https://github.com/open-c
 
 1. Make this directory your current directory
 2. Create a values.yaml based on [values-template.yaml](./values-template.yaml) by setting your cluster name and your options for the different addons.
-3. run `./deploy.sh`.
+3. Login on the hub `kubectl login...`
+4. run `./deploy.sh`.
 
 # deploy.sh options
 

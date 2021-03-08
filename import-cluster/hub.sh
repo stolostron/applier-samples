@@ -30,6 +30,13 @@ fi
 PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 KBCG=$(echo "$PARAMS" | grep "kubeConfig:" | cut -d ":" -f2 | sed 's/^ //')
+TOKEN=$(echo "$PARAMS" | grep "token:" | cut -d ":" -f2 | sed 's/^ //')
+VERSION=$(oc get multiclusterhubs.operator.open-cluster-management.io multiclusterhub -o=jsonpath='{.status.currentVersion}{"\n"}')
+if [ "$VERSION" \< "2.3.0" ] && ([ "$KBCG" != "" ] || [ "$TOKEN" != "" ])
+then
+  echo "The auto-import capability is not yet implemented on the backend"
+  exit 1
+fi
 if [ -z "$NAME" ] 
 then
   echo "Missing cluster name in value.yaml"
@@ -49,7 +56,7 @@ fi
 if [ -z ${DEL+x} ]
 then
   applier -d hub $IN $OUT $VERBOSE -s
-  if [ -z ${OUT+x} ] && [ -z "$KBCG" ]
+  if [ -z ${OUT+x} ] && [ -z "$KBCG" ] && [ -z "$TOKEN" ]
   then
     echo "Wait 10s to settle"
     sleep 10
