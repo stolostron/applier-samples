@@ -15,5 +15,5 @@ for more information about the applier visit [Applier Documentation](https://git
 ## Scenarios
 ### Cluster Life Cycle
 
-- [Import an existing cluster](./import-cluster)
-- [Create and import a cluster](./create-cluster)
+- [Import or detach an existing cluster](./import-cluster)
+- [Create/destroy and import/detach a cluster](./create-cluster)

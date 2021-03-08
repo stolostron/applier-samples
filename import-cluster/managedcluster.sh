@@ -16,7 +16,7 @@ do
 done
 if [ -n "$HELP" ]
 then
-  echo "hub.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]"
+  echo "managedcluster.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]"
   echo "-i: the path to the values.yaml, default values.yaml"
   echo "-o: output-file: generate an output-file instead of applying"
   echo "-v: verbose level"

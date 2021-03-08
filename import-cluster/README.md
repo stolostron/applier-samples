@@ -6,9 +6,10 @@ The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use
 
 1. Make this directory your current directory
 2. Create a values.yaml based on [values-template.yaml](./values-template.yaml) by setting your cluster name and your options for the different addons.
-3. run `./hub.sh`
-4. if not auto-import then log on the future managed cluster
-5. run `./managedcluster.sh`
+3. Login on the hub: `kubectl login...`
+4. run `./hub.sh`
+5. if not auto-import then login on the future managed cluster: `kubectl login...`
+6. run `./managedcluster.sh`
 
 With kubeconfig add this snippet in your values.yaml
 ```
@@ -39,7 +40,7 @@ hub.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]]
 # managedcluster.sh options
 
 ```
-hub.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]
+managedcluster.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]
 -i: the path to the values.yaml, default values.yaml
 -o: output-file: generate an output-file instead of applying
 -v: verbose level
