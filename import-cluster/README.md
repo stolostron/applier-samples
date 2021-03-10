@@ -4,6 +4,8 @@
 
 The scriptss [hub.sh](./hub.sh) and [managedcluster.sh](./managedcluster.sh) use the [applier](https://github.com/open-cluster-management/library-go/blob/master/docs/applier.md) to apply a number of yamls on the hub and managed cluster in order to import an existing cluster. If you want the hub.sh to import automatically the managed cluster, the values.yaml must contain the "kubeConfig" or the token/server and "autoImportRetry" and so the secret containging the kubeconfig and the number of retries will be generated too. In that case you don't need to run the `managedcluster.sh` on the managed cluster.
 
+PS: If RHACM namespace is not `open-cluster-management` than you have to update in the `hub.sh` script the environment variable `RHACM_NAMESPACE`
+
 1. Make this directory your current directory
 2. Create a values.yaml based on [values-template.yaml](./values-template.yaml) by setting your cluster name and your options for the different addons.
 3. Login on the hub: `kubectl login...`
