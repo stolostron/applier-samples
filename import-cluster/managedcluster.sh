@@ -23,11 +23,12 @@ then
   echo "-h: this help"
   exit 1
 fi
+INSTALL_DIR=$(dirname $0)
 if [ -z ${IN+x} ]
 then
   IN="-values values.yaml"
 fi
-PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
+PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 if [ -z "$NAME" ] 
 then
@@ -41,7 +42,7 @@ then
    echo "This $NAME cluster is already imported"
    exit 1
 fi
-applier -d managedcluster/import.yaml --values import-secret.yaml $OUT $SILENT $VERBOSE
+applier -d $INSTALL_DIR/managedcluster/import.yaml --values $INSTALL_DIR/import-secret.yaml $OUT $SILENT $VERBOSE
 if [ $? != 0 ]
 then
   echo "Error: $?"

@@ -1,6 +1,7 @@
 # Copyright Contributors to the Open Cluster Management project
 
 #!/bin/bash
+
 # set -x
 set -e
 while getopts o:i:dv:h flag
@@ -23,16 +24,18 @@ then
   echo "-h: this help"
   exit 0
 fi
+INSTALL_DIR=$(dirname $0)
 if [ -z ${IN+x} ]
 then
   IN="-values values.yaml"
 fi
-PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
+PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout -s)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 KBCG=$(echo "$PARAMS" | grep "kubeConfig:" | cut -d ":" -f2 | sed 's/^ //')
 TOKEN=$(echo "$PARAMS" | grep "token:" | cut -d ":" -f2 | sed 's/^ //')
-VERSION=$(oc get multiclusterhubs.operator.open-cluster-management.io multiclusterhub -o=jsonpath='{.status.currentVersion}{"\n"}')
-if [ "$VERSION" \< "2.3.0" ] && ([ "$KBCG" != "" ] || [ "$TOKEN" != "" ])
+RHACM_NAMESPACE=$(oc get clustermanagers cluster-manager -o=jsonpath='{.metadata.labels.installer\.namespace}{"\n"}')
+VERSION=$(oc get multiclusterhubs.operator.open-cluster-management.io multiclusterhub -n $RHACM_NAMESPACE -o=jsonpath='{.status.currentVersion}{"\n"}')
+if [ "$VERSION" \< "2.3.0" ]  && ([ "$KBCG" != "" ] || [ "$TOKEN" != "" ])
 then
   echo "The auto-import capability is not yet implemented on the backend"
   exit 1
@@ -55,14 +58,14 @@ then
 fi
 if [ -z ${DEL+x} ]
 then
-  applier -d hub $IN $OUT $VERBOSE -s
+  applier -d $INSTALL_DIR/hub $IN $OUT $VERBOSE -s
   if [ -z ${OUT+x} ] && [ -z "$KBCG" ] && [ -z "$TOKEN" ]
   then
     echo "Wait 10s to settle"
     sleep 10
     echo "Retrieve import secret"
     set +e
-    oc get secret -n $NAME $NAME-import -o yaml > import-secret.yaml
+    oc get secret -n $NAME $NAME-import -o yaml > $INSTALL_DIR/import-secret.yaml
     if [ $? != 0 ]
     then
       echo "Error: $?"
@@ -70,5 +73,5 @@ then
     fi
   fi
 else
-  applier -d hub/managedcluster_cr.yaml $IN $DEL $OUT $VERBOSE
+  applier -d $INSTALL_DIR/hub/managedcluster_cr.yaml $IN $DEL $OUT $VERBOSE
 fi

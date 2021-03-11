@@ -2,7 +2,7 @@
 
 #!/bin/bash
 set -e
-#set -x
+# set -x
 while getopts o:i:dv:h flag
 do
   case "${flag}" in
@@ -23,11 +23,12 @@ then
   echo "-h: this help"
   exit 0
 fi
+INSTALL_DIR=$(dirname $0)
 if [ -z ${IN+x} ]
 then
   IN="-values values.yaml"
 fi
-PARAMS="$(applier -d params.yaml $IN -o /dev/stdout -s)"
+PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout -s)"
 CLOUD=$(echo "$PARAMS" | grep "cloud:" | cut -d ":" -f2 | sed 's/^ //')
 if [ $CLOUD != "aws" ] && [ $CLOUD != "azure" ] && [ $CLOUD != "gcp" ]  && [ $CLOUD != "vsphere" ]
 then
@@ -63,15 +64,15 @@ EXT_VALUES=$(cat > /dev/stdout << EOF
 pullSecret:
 $(oc get secret pull-secret -n openshift-config -oyaml | sed 's/^/  /')
 installConfig:
-$(applier -d hub/$CLOUD/install_config.yaml $IN -o /dev/stdout -s | sed 's/^/  /')
+$(applier -d $INSTALL_DIR/hub/$CLOUD/install_config.yaml $IN -o /dev/stdout -s | sed 's/^/  /')
 EOF)
 
 # Create the managed cluster
 if [ -z ${DEL+x} ]
 then
-  echo "$EXT_VALUES" | applier -d hub/common $IN $OUT -s $VERBOSE
+  echo "$EXT_VALUES" | applier -d $INSTALL_DIR/hub/common $IN $OUT -s $VERBOSE
 # Delete the managed cluster
 else
-  echo "$EXT_VALUES" | applier -d hub/common/managed_cluster_cr.yaml $IN $DEL $OUT $VERBOSE
-  echo "$EXT_VALUES" | applier -d hub/common/cluster_deployment_cr.yaml -$IN $DEL $OUT $VERBOSE
+  echo "$EXT_VALUES" | applier -d $INSTALL_DIR/hub/common/managed_cluster_cr.yaml $IN $DEL $OUT $VERBOSE
+  echo "$EXT_VALUES" | applier -d $INSTALL_DIR/hub/common/cluster_deployment_cr.yaml -$IN $DEL $OUT $VERBOSE
 fi
