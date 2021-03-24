@@ -4,22 +4,20 @@
 #!/bin/bash
 # set -x
 set -e
-while getopts o:i:sv:h flag
+while getopts o:i:sh flag
 do 
   case "${flag}" in
-    i) IN="-values ${OPTARG}";;
+    i) IN="--values ${OPTARG}";;
     o) OUT="-o ${OPTARG}";;
-    s) SILENT="-s";;
-    v) VERBOSE="-v ${OPTARG}";;
+    s) SILENT="--silent";;
     h) HELP="help"
   esac
 done
 if [ -n "$HELP" ]
 then
-  echo "managedcluster.sh [-i values-file] [-o output-file] [-d] [-v [0-99]]"
+  echo "managedcluster.sh [-i values-file] [-o output-file] [-d]"
   echo "-i: the path to the values.yaml, default values.yaml"
   echo "-o: output-file: generate an output-file instead of applying"
-  echo "-v: verbose level"
   echo "-h: this help"
   exit 1
 fi
@@ -28,7 +26,7 @@ if [ -z ${IN+x} ]
 then
   IN="-values values.yaml"
 fi
-PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout -s)"
+PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout --silent)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 if [ -z "$NAME" ] 
 then
