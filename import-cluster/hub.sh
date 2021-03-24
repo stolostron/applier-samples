@@ -4,23 +4,21 @@
 
 # set -x
 set -e
-while getopts o:i:dv:h flag
+while getopts o:i:dh flag
 do 
   case "${flag}" in
-    i) IN="-values ${OPTARG}";;
+    i) IN="--values ${OPTARG}";;
     o) OUT="-o ${OPTARG}";;
-    d) DEL="-delete";;
-    v) VERBOSE="-v ${OPTARG}";;
+    d) DEL="--delete";;
     h) HELP="help"
   esac
 done
 if [ -n "$HELP" ]
 then
-  echo "hub.sh [-i values.yaml] [-o output-file] [-d] [-v [0-99]]"
+  echo "hub.sh [-i values.yaml] [-o output-file] [-d]"
   echo "-i: the path to the values.yaml, default values.yaml"
   echo "-o: output-file: generate an output-file instead of applying"
   echo "-d: When set the managed-cluster will be removed"
-  echo "-v: verbose level"
   echo "-h: this help"
   exit 0
 fi
@@ -29,13 +27,13 @@ if [ -z ${IN+x} ]
 then
   IN="-values values.yaml"
 fi
-PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout -s)"
+PARAMS="$(applier -d $INSTALL_DIR/params.yaml $IN -o /dev/stdout --silent)"
 NAME=$(echo "$PARAMS" | grep "name:" | cut -d ":" -f2 | sed 's/^ //')
 KBCG=$(echo "$PARAMS" | grep "kubeConfig:" | cut -d ":" -f2 | sed 's/^ //')
 TOKEN=$(echo "$PARAMS" | grep "token:" | cut -d ":" -f2 | sed 's/^ //')
 RHACM_NAMESPACE=$(oc get clustermanagers cluster-manager -o=jsonpath='{.metadata.labels.installer\.namespace}{"\n"}')
 VERSION=$(oc get multiclusterhubs.operator.open-cluster-management.io multiclusterhub -n $RHACM_NAMESPACE -o=jsonpath='{.status.currentVersion}{"\n"}')
-if [ "$VERSION" \< "2.3.0" ]  && ([ "$KBCG" != "" ] || [ "$TOKEN" != "" ])
+if [ "$VERSION" \< "2.3.0" ] && [ "$FUNCTIONAL_TEST" != "true" ] && ([ "$KBCG" != "" ] || [ "$TOKEN" != "" ])
 then
   echo "The auto-import capability is not yet implemented on the backend"
   exit 1
@@ -58,7 +56,7 @@ then
 fi
 if [ -z ${DEL+x} ]
 then
-  applier -d $INSTALL_DIR/hub $IN $OUT $VERBOSE -s
+  applier -d $INSTALL_DIR/hub $IN $OUT $VERBOSE --silent
   if [ -z ${OUT+x} ] && [ -z "$KBCG" ] && [ -z "$TOKEN" ]
   then
     echo "Wait 10s to settle"

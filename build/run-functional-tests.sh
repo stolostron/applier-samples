@@ -6,6 +6,7 @@ TEST_DIR=test/functional
 TEST_RESULT_DIR=$TEST_DIR/tmp
 ERROR_REPORT=""
 CLUSTER_NAME=$PROJECT_NAME-functional-test
+export FUNCTIONAL_TEST=true
 kind create cluster --name $CLUSTER_NAME
 # Configure the kind cluster
 applier -d $TEST_DIR/resources
